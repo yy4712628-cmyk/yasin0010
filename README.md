@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اپ‌سنتر | دانلود نرم‌افزار</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  /* ===== متغیرهای تم ===== */
+  :root {
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* تم تاریک (پیش‌فرض) */
+  [data-theme="dark"] {
+    --bg-main: #0a0a1a;
+    --bg-secondary: #12122a;
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --bg-card-hover: rgba(255, 255, 255, 0.07);
+    --bg-header: rgba(10, 10, 26, 0.7);
+    --bg-header-scrolled: rgba(10, 10, 26, 0.95);
+    --bg-footer: rgba(0, 0, 0, 0.3);
+    --bg-input: rgba(255, 255, 255, 0.06);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.5);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(0, 212, 255, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* تم روشن */
+  [data-theme="light"] {
+    --bg-main: #f0f4f8;
+    --bg-secondary: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --bg-card-hover: #ffffff;
+    --bg-header: rgba(255, 255, 255, 0.8);
+    --bg-header-scrolled: rgba(255, 255, 255, 0.98);
+    --bg-footer: rgba(240, 244, 248, 0.9);
+    --bg-input: rgba(0, 0, 0, 0.04);
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 212, 255, 0.5);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+
+  body {
+    background: var(--bg-main);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+
+  /* ===== پس‌زمینه متحرک ===== */
+  .bg-animation {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    transition: opacity 0.5s ease;
+  }
+
+  [data-theme="light"] .bg-animation {
+    opacity: 0.5;
+  }
+
+  .bg-animation::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%; left: -50%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(123, 47, 247, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(255, 46, 147, 0.08) 0%, transparent 50%);
+    animation: rotateBg 30s linear infinite;
+  }
+
+  @keyframes rotateBg {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ===== هدر ===== */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-header);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+  }
+
+  header.scrolled {
+    padding: 12px 40px;
+    background: var(--bg-header-scrolled);
+    box-shadow: 0 10px 40px var(--shadow-color);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff2e93);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShine 3s linear infinite;
+    cursor: pointer;
+  }
+
+  @keyframes textShine {
+    to { background-position: 200% center; }
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    animation: pulseLogo 2.5s ease-in-out infinite;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+  }
+
+  @keyframes pulseLogo {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 212, 255, 0.5); }
+    50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(123, 47, 247, 0.7); }
+  }
+
+  nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+
+  nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+
+  nav a:hover { color: #00d4ff; }
+  nav a:hover::after { width: 100%; }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  /* دکمه تغییر تم */
+  .theme-toggle {
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .theme-toggle:hover {
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    border-color: transparent;
+    transform: translateY(-2px) rotate(15deg);
+    box-shadow: 0 8px 25px rgba(123, 47, 247, 0.4);
+  }
+
+  .theme-toggle .icon-sun,
+  .theme-toggle .icon-moon {
+    position: absolute;
+    transition: var(--transition);
+  }
+
+  [data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 0;
+    transform: rotate(180deg) scale(0);
+  }
+
+  [data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  [data-theme="light"] .theme-toggle .icon-sun {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  [data-theme="light"] .theme-toggle .icon-moon {
+    opacity: 0;
+    transform: rotate(180deg) scale(0);
+  }
+
+  .header-btn {
+    padding: 10px 22px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: var(--transition);
+    box-shadow: 0 8px 25px rgba(123, 47, 247, 0.4);
+  }
+
+  .header-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--text-primary);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+
+  /* ===== بخش Hero ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px 60px;
+    position: relative;
+  }
+
+  .hero-content {
+    max-width: 1300px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-text {
+    animation: slideRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  @keyframes slideRight {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 50px;
+    font-size: 13px;
+    color: #00d4ff;
+    margin-bottom: 25px;
+    animation: pulseBadge 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseBadge {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(0, 212, 255, 0); }
+  }
+
+  .hero-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00d4ff;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-text h1 {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 22px;
+    color: var(--text-primary);
+  }
+
+  .hero-text h1 .gradient {
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff2e93);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShine 3s linear infinite;
+  }
+
+  .hero-text p {
+    font-size: 17px;
+    line-height: 2;
+    color: var(--text-secondary);
+    margin-bottom: 35px;
+    max-width: 500px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 16px 32px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff2e93);
+    background-size: 200% auto;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
+    box-shadow: 0 12px 35px rgba(123, 47, 247, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary:hover {
+    background-position: right center;
+    transform: translateY(-3px);
+    box-shadow: 0 18px 45px rgba(0, 212, 255, 0.5);
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .btn-primary:hover::after { left: 100%; }
+
+  .btn-secondary {
+    padding: 16px 32px;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-card-hover);
+    border-color: #00d4ff;
+    transform: translateY(-3px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 35px;
+    margin-top: 40px;
+  }
+
+  .stat h3 {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* ===== موکاپ موبایل ===== */
+  .hero-mockup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateX(-50px);
+    position: relative;
+  }
+
+  @keyframes slideLeft {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hero-mockup::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.3), transparent 70%);
+    filter: blur(40px);
+    animation: glowPulse 4s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .hero-mockup::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 46, 147, 0.25), transparent 70%);
+    filter: blur(50px);
+    animation: glowPulse 5s ease-in-out infinite reverse;
+    z-index: 0;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .phone {
+    width: 300px;
+    height: 610px;
+    background: #1a1a2e;
+    border-radius: 45px;
+    position: relative;
+    z-index: 1;
+    border: 10px solid #2a2a3e;
+    box-shadow: 
+      0 30px 80px rgba(0, 0, 0, 0.6),
+      0 0 0 2px rgba(0, 212, 255, 0.2),
+      inset 0 0 30px rgba(0, 0, 0, 0.5);
+    animation: phoneFloat 6s ease-in-out infinite;
+    overflow: hidden;
+  }
+
+  @keyframes phoneFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-25px) rotate(2deg); }
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 28px;
+    background: #1a1a2e;
+    border-radius: 0 0 20px 20px;
+    z-index: 10;
+    border: 2px solid #2a2a3e;
+    border-top: none;
+  }
+
+  .phone::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 6px;
+    background: #0a0a1a;
+    border-radius: 3px;
+    z-index: 11;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #0f0c29, #302b63, #24243e);
+    border-radius: 35px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-header {
+    padding: 40px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .app-header .app-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .app-header .app-logo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .app-header .app-menu {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .app-content {
+    flex: 1;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  .app-search {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .app-categories {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .app-cat {
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+  }
+
+  .app-cat.active {
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    color: #fff;
+  }
+
+  .app-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .app-item-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .app-item-icon.blue { background: linear-gradient(135deg, #00d4ff, #0088ff); }
+  .app-item-icon.purple { background: linear-gradient(135deg, #7b2ff7, #ff2e93); }
+  .app-item-icon.pink { background: linear-gradient(135deg, #ff2e93, #ff6b35); }
+  .app-item-icon.green { background: linear-gradient(135deg, #00d4ff, #00ff88); }
+
+  .app-item-info { flex: 1; }
+  .app-item-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  .app-item-desc {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .app-item-btn {
+    padding: 6px 14px;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .app-nav {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .app-nav-item {
+    font-size: 16px;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .app-nav-item.active {
+    opacity: 1;
+  }
+
+  /* ===== بخش ویژگی‌ها ===== */
+  .features {
+    padding: 100px 40px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-title h2 {
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+  }
+
+  .section-title h2 .gradient {
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff2e93);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShine 3s linear infinite;
+  }
+
+  .section-title p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.9;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 22px;
+    padding: 35px 28px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .feature-card.visible {
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff2e93);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px var(--shadow-color);
+  }
+
+  .feature-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 22px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(123, 47, 247, 0.15));
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    transition: var(--transition);
+  }
+
+  .feature-card:hover .feature-icon {
+    transform: scale(1.1) rotate(-5deg);
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+  }
+
+  .feature-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text-secondary);
+  }
+
+  /* ===== بخش دانلود ===== */
+  .downloads {
+    padding: 100px 40px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 60px;
+  }
+
+  .download-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 25px 20px;
+    text-align: center;
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .download-card.visible {
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .download-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(123, 47, 247, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px var(--shadow-color);
+  }
+
+  .download-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 20px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    transition: var(--transition);
+  }
+
+  .download-card:hover .download-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .download-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+
+  .download-card .version {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+
+  .download-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+    background-size: 200% auto;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+    box-shadow: 0 8px 25px rgba(123, 47, 247, 0.3);
+  }
+
+  .download-btn:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+  }
+
+  /* ===== بخش CTA ===== */
+  .cta {
+    padding: 100px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .cta-box {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(123, 47, 247, 0.1), rgba(255, 46, 147, 0.1));
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent 60%);
+    animation: rotateBg 20s linear infinite;
+  }
+
+  .cta-box h2 {
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+    color: var(--text-primary);
+  }
+
+  .cta-box p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+    line-height: 1.9;
+  }
+
+  .cta-box .btn-primary {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== فوتر ===== */
+  footer {
+    background: var(--bg-footer);
+    border-top: 1px solid var(--border-color);
+    padding: 60px 40px 30px;
+    margin-top: 50px;
+    transition: var(--transition);
+  }
+
+  .footer-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-col h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+  }
+
+  .footer-col p {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--text-secondary);
+  }
+
+  .footer-col ul {
+    list-style: none;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 12px;
+  }
+
+  .footer-col ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .footer-col ul li a:hover {
+    color: #00d4ff;
+    transform: translateX(-5px);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .social-links a {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .social-links a:hover {
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+  }
+
+  .footer-bottom {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ===== دکمه بازگشت به بالا ===== */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    z-index: 999;
+    box-shadow: 0 10px 30px rgba(123, 47, 247, 0.5);
+  }
+
+  .back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .back-to-top:hover {
+    transform: translateY(-5px) scale(1.05);
+  }
+
+  /* ===== ریسپانسیو ===== */
+  @media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .downloads-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-content { grid-template-columns: 1fr; gap: 40px; }
+    .hero-text { text-align: center; }
+    .hero-text p { margin-left: auto; margin-right: auto; }
+    .hero-buttons { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-text h1 { font-size: 42px; }
+    .footer-content { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 15px 20px; }
+    header.scrolled { padding: 10px 20px; }
+    
+    nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 75%;
+      max-width: 320px;
+      height: 100vh;
+      background: var(--bg-header-scrolled);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 100px 30px 30px;
+      gap: 25px;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-right: 1px solid var(--border-color);
+    }
+
+    nav.active { right: 0; }
+
+    nav a { font-size: 17px; }
+
+    .header-btn { display: none; }
+
+    .menu-toggle { display: flex; }
+
+    .hero { padding: 100px 20px 40px; }
+
+    .hero-text h1 { font-size: 32px; }
+
+    .hero-text p { font-size: 15px; }
+
+    .phone { width: 250px; height: 510px; }
+
+    .features { padding: 60px 20px; }
+    .section-title h2 { font-size: 28px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .downloads { padding: 60px 20px; }
+    .downloads-grid { grid-template-columns: 1fr; }
+    .cta { padding: 60px 20px; }
+    .cta-box { padding: 40px 25px; }
+    .cta-box h2 { font-size: 24px; }
+    footer { padding: 40px 20px 20px; }
+    .footer-content { grid-template-columns: 1fr; gap: 30px; }
+    .back-to-top { bottom: 20px; left: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-text h1 { font-size: 26px; }
+    .phone { width: 220px; height: 450px; border-width: 8px; }
+    .phone::before { width: 100px; height: 22px; }
+    .hero-stats { gap: 20px; }
+    .stat h3 { font-size: 22px; }
+    .btn-primary, .btn-secondary { padding: 14px 24px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-animation"></div>
+
+<!-- ===== هدر ===== -->
+<header id="header">
+  <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+    <div class="logo-icon">📱</div>
+    <span>اپ‌سنتر</span>
+  </div>
+
+  <nav id="nav">
+    <a href="#home">خانه</a>
+    <a href="#features">ویژگی‌ها</a>
+    <a href="#downloads">دانلودها</a>
+    <a href="#contact">تماس</a>
+  </nav>
+
+  <div class="header-actions">
+    <!-- دکمه تغییر تم -->
+    <div class="theme-toggle" id="themeToggle" title="تغییر تم">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </div>
+    <a href="#" class="header-btn">ورود / ثبت‌نام</a>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== بخش Hero ===== -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>جدیدترین نسخه‌ها هر هفته</span>
+      </div>
+      <h1>
+        دانلود <span class="gradient">نرم‌افزارهای</span><br>
+        محبوب و کاربردی
+      </h1>
+      <p>
+        بهترین اپلیکیشن‌ها و نرم‌افزارهای اندروید، iOS و ویندوز رو با لینک مستقیم و سرعت بالا از اپ‌سنتر دانلود کن. کاملاً رایگان و امن.
+      </p>
+      <div class="hero-buttons">
+        <a href="#downloads" class="btn-primary">
+          <span>🚀</span>
+          <span>شروع دانلود</span>
+        </a>
+        <a href="#features" class="btn-secondary">
+          <span>ℹ️</span>
+          <span>بیشتر بدانید</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <h3>+۵۰۰</h3>
+          <p>نرم‌افزار</p>
+        </div>
+        <div class="stat">
+          <h3>+۱۰۰K</h3>
+          <p>دانلود موفق</p>
+        </div>
+        <div class="stat">
+          <h3>۱۰۰٪</h3>
+          <p>رایگان</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-mockup">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="app-header">
+            <div class="app-logo">
+              <div class="app-logo-icon">📱</div>
+              <span>اپ‌سنتر</span>
+            </div>
+            <div class="app-menu">☰</div>
+          </div>
+
+          <div class="app-content">
+            <div class="app-search">
+              <span>🔍</span>
+              <span>جستجوی نرم‌افزار...</span>
+            </div>
+
+            <div class="app-categories">
+              <div class="app-cat active">همه</div>
+              <div class="app-cat">بازی</div>
+              <div class="app-cat">ابزار</div>
+              <div class="app-cat">شبکه</div>
+            </div>
+
+            <div class="app-item">
+              <div class="app-item-icon blue">📸</div>
+              <div class="app-item-info">
+                <div class="app-item-name">اینستاگرام پلاس</div>
+                <div class="app-item-desc">نسخه ۱۲.۵ • ۴۵ مگابایت</div>
+              </div>
+              <div class="app-item-btn">دانلود</div>
+            </div>
+
+            <div class="app-item">
+              <div class="app-item-icon purple">🎵</div>
+              <div class="app-item-info">
+                <div class="app-item-name">اسپاتیفای پریمیوم</div>
+                <div class="app-item-desc">نسخه ۸.۹ • ۳۲ مگابایت</div>
+              </div>
+              <div class="app-item-btn">دانلود</div>
+            </div>
+
+            <div class="app-item">
+              <div class="app-item-icon pink">🎮</div>
+              <div class="app-item-info">
+                <div class="app-item-name">پابجی موبایل</div>
+                <div class="app-item-desc">نسخه ۲.۱ • ۶۵۰ مگابایت</div>
+              </div>
+              <div class="app-item-btn">دانلود</div>
+            </div>
+
+            <div class="app-item">
+              <div class="app-item-icon green">💬</div>
+              <div class="app-item-info">
+                <div class="app-item-name">واتساپ پلاس</div>
+                <div class="app-item-desc">نسخه ۲.۲ • ۵۸ مگابایت</div>
+              </div>
+              <div class="app-item-btn">دانلود</div>
+            </div>
+          </div>
+
+          <div class="app-nav">
+            <div class="app-nav-item active">🏠</div>
+            <div class="app-nav-item">🔍</div>
+            <div class="app-nav-item">❤️</div>
+            <div class="app-nav-item">👤</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ویژگی‌ها ===== -->
+<section class="features" id="features">
+  <div class="section-title">
+    <h2>چرا <span class="gradient">اپ‌سنتر</span>؟</h2>
+    <p>ما بهترین تجربه دانلود رو برات فراهم می‌کنیم</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>سرعت بالا</h3>
+      <p>لینک‌های مستقیم با سرعت بالا، بدون محدودیت و بدون انتظار. سریع دانلود کن و لذت ببر.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>کاملاً امن</h3>
+      <p>تمام فایل‌ها قبل از انتشار توسط تیم ما بررسی و آنتی‌ویروس می‌شن تا خیالت راحت باشه.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🆓</div>
+      <h3>۱۰۰٪ رایگان</h3>
+      <p>همه نرم‌افزارها بدون هیچ هزینه‌ای قابل دانلود هستن. بدون اشتراک، بدون تبلیغات مزاحم.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🔄</div>
+      <h3>به‌روزرسانی مداوم</h3>
+      <p>هر هفته جدیدترین نسخه‌ها رو برات آپلود می‌کنیم تا همیشه از آخرین امکانات بهره‌مند باشی.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">💎</div>
+      <h3>نسخه‌های پرمیوم</h3>
+      <p>نسخه‌های مود و پرمیوم نرم‌افزارهای محبوب رو با امکانات ویژه دانلود کن.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🎧</div>
+      <h3>پشتیبانی ۲۴/۷</h3>
+      <p>تیم پشتیبانی ما همیشه آماده‌ست تا به سوالات و مشکلات شما پاسخ بده.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== دانلودها ===== -->
+<section class="downloads" id="downloads">
+  <div class="section-title">
+    <h2>محبوب‌ترین <span class="gradient">دانلودها</span></h2>
+    <p>پرطرفدارترین نرم‌افزارهای این هفته</p>
+  </div>
+
+  <div class="downloads-grid">
+    <!-- 
+      ========================================
+      📌 راهنمای ویرایش لینک‌های دانلود:
+      ========================================
+      فقط مقدار href رو عوض کن. مثلاً:
+      href="https://example.com/instagram.apk"
+      ========================================
+    -->
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #00d4ff, #0088ff);">📸</div>
+      <h3>اینستاگرام پلاس</h3>
+      <p class="version">نسخه ۱۲.۵ • ۴۵ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/instagram" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #7b2ff7, #ff2e93);">🎵</div>
+      <h3>اسپاتیفای پریمیوم</h3>
+      <p class="version">نسخه ۸.۹ • ۳۲ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/spotify" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #ff2e93, #ff6b35);">🎮</div>
+      <h3>پابجی موبایل</h3>
+      <p class="version">نسخه ۲.۱ • ۶۵۰ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/pubg" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #00d4ff, #00ff88);">💬</div>
+      <h3>واتساپ پلاس</h3>
+      <p class="version">نسخه ۲.۲ • ۵۸ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/whatsapp" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #ff6b35, #ff2e93);">🎬</div>
+      <h3>یوتیوب پرمیوم</h3>
+      <p class="version">نسخه ۱۸.۵ • ۷۲ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/youtube" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #0088ff, #7b2ff7);">📝</div>
+      <h3>مایکروسافت آفیس</h3>
+      <p class="version">نسخه ۲۰۲۴ • ۱۲۰ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/office" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #00ff88, #00d4ff);">🎨</div>
+      <h3>فتوشاپ موبایل</h3>
+      <p class="version">نسخه ۹.۸ • ۹۵ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/photoshop" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+
+    <div class="download-card">
+      <div class="download-icon" style="background: linear-gradient(135deg, #ff2e93, #7b2ff7);">🎮</div>
+      <h3>کالاف دیوتی</h3>
+      <p class="version">نسخه ۱.۹ • ۸۵۰ MB</p>
+      <!-- 👇 اینجا لینک دانلود رو بذار -->
+      <a href="https://example.com/download/cod" class="download-btn" target="_blank">⬇️ دانلود</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta" id="contact">
+  <div class="cta-box">
+    <h2>نرم‌افزار مورد نظرت رو پیدا نکردی؟</h2>
+    <p>به ما بگو چی می‌خوای، تیم ما در سریع‌ترین زمان برات آماده می‌کنه!</p>
+    <a href="#" class="btn-primary">
+      <span>📩</span>
+      <span>درخواست نرم‌افزار</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== فوتر ===== -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <div class="logo" style="margin-bottom: 20px;">
+        <div class="logo-icon">📱</div>
+        <span>اپ‌سنتر</span>
+      </div>
+      <p>
+        اپ‌سنتر مرجع دانلود نرم‌افزارهای اندروید، iOS و ویندوز. بهترین و جدیدترین اپلیکیشن‌ها رو با لینک مستقیم و رایگان دانلود کن.
+      </p>
+      <div class="social-links">
+        <a href="#">📷</a>
+        <a href="#">✈️</a>
+        <a href="#">🐦</a>
+        <a href="#">📺</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>لینک‌های سریع</h4>
+      <ul>
+        <li><a href="#home">خانه</a></li>
+        <li><a href="#features">ویژگی‌ها</a></li>
+        <li><a href="#downloads">دانلودها</a></li>
+        <li><a href="#contact">تماس با ما</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>دسته‌بندی‌ها</h4>
+      <ul>
+        <li><a href="#">اپلیکیشن اندروید</a></li>
+        <li><a href="#">بازی اندروید</a></li>
+        <li><a href="#">نرم‌افزار ویندوز</a></li>
+        <li><a href="#">اپلیکیشن iOS</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>پشتیبانی</h4>
+      <ul>
+        <li><a href="#">سوالات متداول</a></li>
+        <li><a href="#">قوانین و مقررات</a></li>
+        <li><a href="#">حریم خصوصی</a></li>
+        <li><a href="#">گزارش مشکل</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © ۱۴۰۴ اپ‌سنتر - تمامی حقوق محفوظ است. ساخته شده با ❤️
+  </div>
+</footer>
+
+<div class="back-to-top" id="backToTop">⬆️</div>
+
+<script>
+  // ========================================
+  // 🌙☀️ تغییر تم روشن / تاریک
+  // ========================================
+  const themeToggle = document.getElementById('themeToggle');
+  const htmlElement = document.documentElement;
+
+  // بارگذاری تم ذخیره شده
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlElement.setAttribute('data-theme', savedTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = htmlElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    htmlElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+
+  // ========================================
+  // هدر اسکرول
+  // ========================================
+  const header = document.getElementById('header');
+  const backToTop = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+
+    if (window.scrollY > 500) {
+      backToTop.classList.add('show');
+    } else {
+      backToTop.classList.remove('show');
+    }
+  });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ========================================
+  // منوی موبایل
+  // ========================================
+  const menuToggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('nav');
+
+  menuToggle.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('active');
+    });
+  });
+
+  // ========================================
+  // انیمیشن اسکرول
+  // ========================================
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, index * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.feature-card, .download-card').forEach(card => {
+    observer.observe(card);
+  });
+</script>
+
+</body>
+</html>
